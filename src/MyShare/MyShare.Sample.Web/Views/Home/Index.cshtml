@@ -1,0 +1,16 @@
+﻿@model IEnumerable<MyShare.Sample.Infrastructure.Entities.BookEntity>
+@{
+    ViewBag.Title = "主页";
+    Layout = "_Layout";
+}
+
+<h2>所有:</h2>
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>
+            @Html.ActionLink("名称: " + item.Name, "Details", new {Id = item.Id})
+        </li>
+    }
+</ul>
+@Html.ActionLink("新增", "Add")

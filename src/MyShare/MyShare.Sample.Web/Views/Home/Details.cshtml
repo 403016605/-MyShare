@@ -1,0 +1,14 @@
+﻿@model MyShare.Sample.Infrastructure.Entities.BookEntity
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>详情:</h2>
+Id: @Model.Id<br/>
+Name: @Model.Name<br/>
+Version:@Model.Version<br />
+
+@Html.ActionLink("移除", "Remove", new {Id = Model.Id, Version = Model.Version})<br/>
+<a href="/">返回</a>

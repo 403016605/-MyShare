@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "新增";
+    Layout = "_Layout";
+}
+
+<h2>新增</h2>
+@using (Html.BeginForm())
+{
+    <p>
+        名称: @Html.TextBox("Name")<br/>
+        <button name="submit">提交</button>
+        <a href="/">返回</a>
+    </p>
+}
