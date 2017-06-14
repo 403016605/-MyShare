@@ -1,2 +1,2 @@
-# -MyShare
+# MyShare
 ddd practice
