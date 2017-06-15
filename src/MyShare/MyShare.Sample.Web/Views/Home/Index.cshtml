@@ -1,16 +1,25 @@
-﻿@model IEnumerable<MyShare.Sample.Infrastructure.Entities.BookEntity>
+﻿@using System.Collections.Generic
+@model System.Collections.Generic.IEnumerable<MyShare.Sample.Infrastructure.Entities.BookEntity>
 @{
     ViewBag.Title = "主页";
     Layout = "_Layout";
 }
 
-<h2>所有:</h2>
-<ul>
-    @foreach (var item in Model)
-    {
-        <li>
-            @Html.ActionLink("名称: " + item.Name, "Details", new {Id = item.Id})
-        </li>
-    }
-</ul>
 @Html.ActionLink("新增", "Add")
+<div class="table-responsive">
+    <table class="table table-hover">
+        <tr>
+            <th>标识</th>
+            <th>名称</th>
+            <th>操作</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@Html.ActionLink("详情", "Details", new { Id = item.Id })</td>
+            </tr>
+        }
+    </table>
+</div>

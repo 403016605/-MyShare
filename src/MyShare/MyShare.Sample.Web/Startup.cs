@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MyShare.Common;
 using MyShare.Kernel;
 
 namespace MyShare.Sample.Web
@@ -30,7 +31,11 @@ namespace MyShare.Sample.Web
         {
             // Add framework services.
             services.AddMvc();
-            Bootstrap.Instance(services).Init().InitSample();
+
+            Bootstrap.Instance(services)
+                .InitKernel()//初始化Kernel
+                .UseCommonn()//使用工具
+                .InitSample();//初始化项目
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

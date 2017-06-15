@@ -35,7 +35,7 @@ namespace MyShare.Kernel
         ///     初始化
         /// </summary>
         /// <returns></returns>
-        public Bootstrap Init()
+        public Bootstrap InitKernel()
         {
             ServicesCollection.AddMemoryCache();
 
