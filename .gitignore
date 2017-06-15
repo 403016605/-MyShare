@@ -50,3 +50,11 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+/src/MyShare/MyShare.Kernel/obj
+/src/MyShare/MyShare.Kernel/bin
+/src/MyShare/MyShare.Common/obj
+/src/MyShare/MyShare.Common/bin
+/src/MyShare/MyShare.Sample.Web/obj
+/src/MyShare/MyShare.Sample.Web/bin
+/src/MyShare/MyShare.Sample/obj
+/src/MyShare/MyShare.Sample/bin

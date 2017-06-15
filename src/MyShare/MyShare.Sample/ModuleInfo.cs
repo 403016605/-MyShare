@@ -1,21 +1,11 @@
 ﻿namespace MyShare.Sample
 {
-    public sealed class ModuleInfo
+    public sealed class ModuleInfo: Kernel.ModuleInfo
     {
         public ModuleInfo()
         {
             Description = "模块描述";
-            Name = "模块名称";
+            Name = this.GetType().Namespace;
         }
-
-        /// <summary>
-        /// 模块名称
-        /// </summary>
-        public string Name { get; }
-
-        /// <summary>
-        /// 模块描述
-        /// </summary>
-        public string Description { get; }
     }
 }

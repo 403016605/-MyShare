@@ -5,9 +5,11 @@ VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyShare.Kernel", "MyShare.Kernel\MyShare.Kernel.csproj", "{FFA97B3E-322D-4E40-A335-18795BBADA58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyShare.Sample", "MyShare.Sample\MyShare.Sample.csproj", "{19E31C9C-B1E8-4AAC-82BC-F576C3902A6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyShare.Sample", "MyShare.Sample\MyShare.Sample.csproj", "{19E31C9C-B1E8-4AAC-82BC-F576C3902A6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyShare.Sample.Web", "MyShare.Sample.Web\MyShare.Sample.Web.csproj", "{5D824684-15BD-4261-8EB9-425F750A8354}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyShare.Sample.Web", "MyShare.Sample.Web\MyShare.Sample.Web.csproj", "{5D824684-15BD-4261-8EB9-425F750A8354}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyShare.Common", "MyShare.Common\MyShare.Common.csproj", "{0C9F2C72-5197-42AD-8C75-97289E6E11BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{5D824684-15BD-4261-8EB9-425F750A8354}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D824684-15BD-4261-8EB9-425F750A8354}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D824684-15BD-4261-8EB9-425F750A8354}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C9F2C72-5197-42AD-8C75-97289E6E11BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C9F2C72-5197-42AD-8C75-97289E6E11BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C9F2C72-5197-42AD-8C75-97289E6E11BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C9F2C72-5197-42AD-8C75-97289E6E11BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
