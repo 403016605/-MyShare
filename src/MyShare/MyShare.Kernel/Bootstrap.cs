@@ -7,8 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 using MyShare.Kernel.Bus;
 using MyShare.Kernel.Cache;
 using MyShare.Kernel.Commands;
+using MyShare.Kernel.Common;
+using MyShare.Kernel.Data;
 using MyShare.Kernel.Defaults.Bus;
 using MyShare.Kernel.Defaults.Cache;
+using MyShare.Kernel.Defaults.Common;
+using MyShare.Kernel.Defaults.Data;
 using MyShare.Kernel.Defaults.Domain;
 using MyShare.Kernel.Defaults.Events;
 using MyShare.Kernel.Domain;
@@ -49,6 +53,10 @@ namespace MyShare.Kernel
             ServicesCollection.AddScoped<ICache, MemoryCache>();
             ServicesCollection.AddScoped<IRepository>(y => new CacheRepository(new Repository(y.GetService<IEventStore>()),
                 y.GetService<IEventStore>(), y.GetService<ICache>()));
+
+            //注册工具
+            ServicesCollection.AddSingleton<ISerializer, Serializer>();
+            ServicesCollection.AddSingleton<IEventRepository, EventRepository>();           
 
             return this;
         }
