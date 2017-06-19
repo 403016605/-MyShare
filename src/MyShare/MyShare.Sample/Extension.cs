@@ -1,7 +1,10 @@
-﻿using System.Reflection;
+﻿using System.Data;
+using System.Data.SqlClient;
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using MyShare.Kernel;
 using MyShare.Sample.Queries;
+using Pomelo.Data.MySql;
 
 namespace MyShare.Sample
 {
@@ -13,7 +16,7 @@ namespace MyShare.Sample
 
             bootstrap.AddHandlers(currentAssembly);
             bootstrap.AddBus(currentAssembly);
-            bootstrap.ServicesCollection.AddSingleton<IQueryBook, QueryBook>();
+            bootstrap.ServicesCollection.AddSingleton<IQueryBook, QueryBook>(); 
             return bootstrap;
         }
     }

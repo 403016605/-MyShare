@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -39,7 +40,7 @@ namespace MyShare.Kernel
         ///     初始化
         /// </summary>
         /// <returns></returns>
-        public Bootstrap InitKernel()
+        public Bootstrap InitKernel(IDbConnection conn)
         {
             ServicesCollection.AddMemoryCache();
 
@@ -49,15 +50,18 @@ namespace MyShare.Kernel
             ServicesCollection.AddSingleton<IEventPublisher>(y => y.GetService<InProcessBus>());
             ServicesCollection.AddSingleton<IHandlerRegistrar>(y => y.GetService<InProcessBus>());
             ServicesCollection.AddScoped<ISession, Session>();
+            ServicesCollection.AddSingleton<IDbConnection>(conn);
             ServicesCollection.AddSingleton<IEventStore, InMemoryEventStore>();
             ServicesCollection.AddScoped<ICache, MemoryCache>();
-            ServicesCollection.AddScoped<IRepository>(y => new CacheRepository(new Repository(y.GetService<IEventStore>()),
+            ServicesCollection.AddScoped<IRepository>(y => new CacheRepository(new Repository(y.GetService<IEventStore>(),y.GetService<IEventPublisher>()),
                 y.GetService<IEventStore>(), y.GetService<ICache>()));
 
             //注册工具
             ServicesCollection.AddSingleton<ISerializer, Serializer>();
-            ServicesCollection.AddSingleton<IEventRepository, EventRepository>();           
+            ServicesCollection.AddSingleton<IEventRepository, EventRepository>();
 
+            var dbConn=ServicesCollection.BuildServiceProvider().GetService<IDbConnection>();
+            dbConn.InitEntities(typeof(ModuleInfo).GetTypeInfo().Assembly);
             return this;
         }
 

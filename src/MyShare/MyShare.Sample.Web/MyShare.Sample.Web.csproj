@@ -91,7 +91,6 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MyShare.Common\MyShare.Common.csproj" />
     <ProjectReference Include="..\MyShare.Kernel\MyShare.Kernel.csproj" />
     <ProjectReference Include="..\MyShare.Sample\MyShare.Sample.csproj" />
   </ItemGroup>

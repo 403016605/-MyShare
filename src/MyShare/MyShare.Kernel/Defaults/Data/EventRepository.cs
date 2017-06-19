@@ -79,6 +79,8 @@ namespace MyShare.Kernel.Defaults.Data
 
         public void Save(IEnumerable<IEvent> events)
         {
+            var body = _serializer.Serialize(events.First());
+
             _conn.Insert(events.Select(item => new StoreEvent
             {
                 Id = item.Id,

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MyShare.Common;
 using MyShare.Kernel;
+using Pomelo.Data.MySql;
 
 namespace MyShare.Sample.Web
 {
@@ -33,8 +29,7 @@ namespace MyShare.Sample.Web
             services.AddMvc();
 
             Bootstrap.Instance(services)
-                .InitKernel()//初始化Kernel
-                .UseCommonn()//使用工具
+                .InitKernel(new MySqlConnection("Server=127.0.0.1;Database=eventsource;Uid=root;Pwd=123456;"))//初始化Kernel
                 .InitSample();//初始化项目
         }
 

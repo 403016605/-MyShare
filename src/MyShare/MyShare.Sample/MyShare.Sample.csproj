@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Pomelo.Data.MySql" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MyShare.Kernel\MyShare.Kernel.csproj" />
   </ItemGroup>
 

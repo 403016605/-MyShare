@@ -48,16 +48,13 @@ namespace MyShare.Kernel
         {
             var executorTypes = assembly
                     .GetTypes()
-                    .Where(e => e.GetTypeInfo().BaseType == typeof(IEntity));
+                    .Where(e => e.GetTypeInfo().ImplementedInterfaces.Contains(typeof(IEntity)) );
 
             var flag = BindingFlags.Public | BindingFlags.Instance;
 
             foreach (var executorType in executorTypes)
             {
-                foreach (var item in executorType.GetProperties(flag))
-                {
-                    TypeMapper.Add(executorType, executorType.GetProperties(flag).ToList());
-                }
+                TypeMapper.Add(executorType, executorType.GetProperties(flag).ToList());
             }
 
             return conn;

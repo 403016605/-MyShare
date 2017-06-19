@@ -26,5 +26,6 @@ namespace MyShare.Kernel.Defaults.Common
                 return memoryStream.ToArray();
             }
         }
+
     }
 }
