@@ -6,7 +6,9 @@ using MyShare.Sample.Domain;
 
 namespace MyShare.Sample.Commands.Handlers
 {
-    public class BookCommandHandlers : ICommandHandler<CreateBookCommand>,ICommandHandler<RemoveBookCommand>
+    public class BookCommandHandlers : ICommandHandler<CreateBookCommand>,
+        ICommandHandler<RemoveBookCommand>,
+        ICommandHandler<RestoreBookCommand>
     {
         private readonly ISession _session;
 
@@ -25,6 +27,13 @@ namespace MyShare.Sample.Commands.Handlers
         {
             var item = await _session.Get<Book>(message.Id, message.ExpectedVersion);
             item.Remove(message.Id);
+            await _session.Commit();
+        }
+
+        public async Task Handle(RestoreBookCommand message)
+        {
+            var item = await _session.Get<Book>(message.Id, null);
+            await _session.Add(item);
             await _session.Commit();
         }
     }

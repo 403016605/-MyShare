@@ -48,7 +48,7 @@ namespace MyShare.Kernel.Domain
 
                     i++;
                     @event.Version = Version + i;
-                    @event.TimeStamp = DateTimeOffset.UtcNow;
+                    @event.TimeStamp = DateTime.Now;
                 }
                 Version = Version + _changes.Count;
                 _changes.Clear();

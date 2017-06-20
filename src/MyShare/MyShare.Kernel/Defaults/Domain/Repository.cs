@@ -16,18 +16,10 @@ namespace MyShare.Kernel.Defaults.Domain
     internal class Repository : IRepository
     {
         private readonly IEventStore _eventStore;
-        private readonly IEventPublisher _publisher;
 
         public Repository(IEventStore eventStore)
         {
             _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
-        }
-
-        [Obsolete("The eventstore should publish events after saving")]
-        public Repository(IEventStore eventStore, IEventPublisher publisher)
-        {
-            _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
-            _publisher = publisher ?? throw new ArgumentNullException(nameof(publisher));
         }
 
         public async Task Save<T>(T aggregate, int? expectedVersion = null) where T : AggregateRoot
@@ -39,14 +31,6 @@ namespace MyShare.Kernel.Defaults.Domain
 
             var changes = aggregate.FlushUncommitedChanges();
             await _eventStore.Save(changes);
-
-            if (_publisher != null)
-            {
-                foreach (var @event in changes)
-                {
-                    await _publisher.Publish(@event);
-                }
-            }
         }
 
         public Task<T> Get<T>(Guid aggregateId) where T : AggregateRoot

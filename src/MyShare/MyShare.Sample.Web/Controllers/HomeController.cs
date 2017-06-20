@@ -42,6 +42,13 @@ namespace MyShare.Sample.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Restore(Guid Id)
+        {
+            _commandSender.Send(new RestoreBookCommand(Id));
+            return RedirectToAction("Index");
+        }
+        
+
         public async Task<ActionResult> Remove(Guid id, int version)
         {
             await _commandSender.Send(new RemoveBookCommand(id, version));

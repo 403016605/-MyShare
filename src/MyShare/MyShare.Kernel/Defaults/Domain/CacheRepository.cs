@@ -44,10 +44,9 @@ namespace MyShare.Kernel.Defaults.Domain
 
                 await _repository.Save(aggregate, expectedVersion);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _cache.Remove(aggregate.Id);
-                throw;
             }
             finally
             {

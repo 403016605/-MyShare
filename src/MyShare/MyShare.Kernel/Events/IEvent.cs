@@ -25,6 +25,6 @@ namespace MyShare.Kernel.Events
         /// <summary>
         ///     时间戳
         /// </summary>
-        DateTimeOffset TimeStamp { get; set; }
+        DateTime TimeStamp { get; set; }
     }
 }

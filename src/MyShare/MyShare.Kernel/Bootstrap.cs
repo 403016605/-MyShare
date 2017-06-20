@@ -53,7 +53,7 @@ namespace MyShare.Kernel
             ServicesCollection.AddSingleton<IDbConnection>(conn);
             ServicesCollection.AddSingleton<IEventStore, InMemoryEventStore>();
             ServicesCollection.AddScoped<ICache, MemoryCache>();
-            ServicesCollection.AddScoped<IRepository>(y => new CacheRepository(new Repository(y.GetService<IEventStore>(),y.GetService<IEventPublisher>()),
+            ServicesCollection.AddScoped<IRepository>(y => new CacheRepository(new Repository(y.GetService<IEventStore>()),
                 y.GetService<IEventStore>(), y.GetService<ICache>()));
 
             //注册工具
