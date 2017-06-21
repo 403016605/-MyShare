@@ -19,6 +19,7 @@ using MyShare.Kernel.Domain;
 using MyShare.Kernel.Events;
 using Scrutor;
 using Dapper;
+using MyShare.Kernel.Infrastructure;
 
 #endregion
 
@@ -54,6 +55,17 @@ namespace MyShare.Kernel
 
             foreach (var executorType in executorTypes)
             {
+                //var filterProps = new List<PropertyInfo>();
+
+                //foreach (var prop in executorType.GetProperties(flag))
+                //{
+                //    var shoudleIgnore=prop.GetCustomAttributes().Select(m=>m.GetType()).Contains(typeof(IgnoreAttribute));
+                //    if (!shoudleIgnore)
+                //    {
+                //        filterProps.Add(prop);
+                //    }
+                //}
+
                 TypeMapper.Add(executorType, executorType.GetProperties(flag).ToList());
             }
 
@@ -65,7 +77,7 @@ namespace MyShare.Kernel
         {
             var type = typeof(T);
 
-            var list = TypeMapper[type].Select(p => p.Name).ToArray();
+            var list = TypeMapper[type].Select(p => p.Name).Where(p=>p!= "TimeStamp").ToArray();
 
             var sql = $"INSERT INTO {type.Name}({string.Join(",", list)}) VALUES(@{string.Join(",@", list)})";
 
@@ -93,7 +105,7 @@ namespace MyShare.Kernel
 
             var sql = $"SELECT {string.Join(",", list)} FROM {type.Name} WHERE Id=@Id";
 
-            return conn.Query<T>(sql, new { Id = Id.ToString() }).AsList();
+            return conn.Query<T>(sql, new { Id = Id }).AsList();
         }
 
         #endregion

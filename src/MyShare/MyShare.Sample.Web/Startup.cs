@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Data;
+using System.Data.SqlClient;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,9 +29,12 @@ namespace MyShare.Sample.Web
         {
             // Add framework services.
             services.AddMvc();
+            //IDbConnection conn = new MySqlConnection("Server=127.0.0.1;Database=eventsource;Uid=root;Pwd=123456;")
+            IDbConnection conn=new SqlConnection(@"Data Source = WH-PC077\MSSQLSERVER2014;Initial Catalog = eventsource;User Id = sa;Password = 95938;");
+
 
             Bootstrap.Instance(services)
-                .InitKernel(new MySqlConnection("Server=127.0.0.1;Database=eventsource;Uid=root;Pwd=123456;"))//初始化Kernel
+                .InitKernel(conn)//初始化Kernel
                 .InitSample();//初始化项目
         }
 

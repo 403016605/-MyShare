@@ -1,4 +1,5 @@
 ﻿using System;
+using MyShare.Kernel.Infrastructure;
 using ProtoBuf;
 
 namespace MyShare.Kernel.Events
@@ -11,6 +12,7 @@ namespace MyShare.Kernel.Events
         [ProtoMember(2)]
         public int Version { get; set; }
         [ProtoMember(3)]
-        public DateTime TimeStamp { get; set; }
+        [Ignore]
+        public DateTimeOffset TimeStamp { get; set; }
     }
 }
