@@ -1,10 +1,7 @@
-﻿using System.Data;
-using System.Data.SqlClient;
-using System.Reflection;
+﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using MyShare.Kernel;
 using MyShare.Sample.Queries;
-using Pomelo.Data.MySql;
 
 namespace MyShare.Sample
 {

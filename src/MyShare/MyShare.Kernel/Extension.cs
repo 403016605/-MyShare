@@ -93,7 +93,7 @@ namespace MyShare.Kernel
 
             var sql = $"SELECT {string.Join(",", list)} FROM {type.Name} WHERE Id=@Id";
 
-            return conn.Query<T>(sql, new { Id = Id }).AsList();
+            return conn.Query<T>(sql, new { Id = Id.ToString() }).AsList();
         }
 
         #endregion
