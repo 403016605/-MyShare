@@ -6,8 +6,8 @@ namespace MyShare.Sample.Queries
 {
     public interface IQueryBook
     {
-        IEnumerable<BookEntity> GetList();
+        IEnumerable<Book> GetList();
 
-        BookEntity Get(Guid id);
+        Book Get(Guid id);
     }
 }

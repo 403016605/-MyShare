@@ -15,7 +15,7 @@ namespace MyShare.Kernel.Defaults.Domain
 {
     internal class CacheRepository : IRepository
     {
-        private static readonly ConcurrentDictionary<Guid, SemaphoreSlim> _locks =
+        private static readonly ConcurrentDictionary<Guid, SemaphoreSlim> Locks =
             new ConcurrentDictionary<Guid, SemaphoreSlim>();
 
         private readonly ICache _cache;
@@ -28,12 +28,12 @@ namespace MyShare.Kernel.Defaults.Domain
             _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
 
-            _cache.RegisterEvictionCallback(key => _locks.TryRemove(key, out var o));
+            _cache.RegisterEvictionCallback(key => Locks.TryRemove(key, out var o));
         }
 
         public async Task Save<T>(T aggregate, int? expectedVersion = null) where T : AggregateRoot
         {
-            var @lock = _locks.GetOrAdd(aggregate.Id, CreateLock);
+            var @lock = Locks.GetOrAdd(aggregate.Id, CreateLock);
             await @lock.WaitAsync();
             try
             {
@@ -56,7 +56,7 @@ namespace MyShare.Kernel.Defaults.Domain
 
         public async Task<T> Get<T>(Guid aggregateId) where T : AggregateRoot
         {
-            var @lock = _locks.GetOrAdd(aggregateId, CreateLock);
+            var @lock = Locks.GetOrAdd(aggregateId, CreateLock);
             await @lock.WaitAsync();
             try
             {

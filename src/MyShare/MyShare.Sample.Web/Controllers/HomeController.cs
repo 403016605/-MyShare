@@ -42,9 +42,9 @@ namespace MyShare.Sample.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Restore(Guid Id)
+        public ActionResult Restore(Guid id)
         {
-            _commandSender.Send(new RestoreBookCommand(Id));
+            _commandSender.Send(new RestoreBookCommand(id));
             return RedirectToAction("Index");
         }
         

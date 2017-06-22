@@ -12,9 +12,9 @@ namespace MyShare.Kernel.Infrastructure
 {
     internal class PrivateReflectionDynamicObject : DynamicObject
     {
-        private const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+        private const BindingFlags BindingFlags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic;
 
-        private static readonly ConcurrentDictionary<int, CompiledMethodInfo> cachedMembers =
+        private static readonly ConcurrentDictionary<int, CompiledMethodInfo> CachedMembers =
             new ConcurrentDictionary<int, CompiledMethodInfo>();
 
         public object RealObject { get; set; }
@@ -33,7 +33,7 @@ namespace MyShare.Kernel.Infrastructure
                 argtypes[i] = argtype;
                 hash = hash * 31 + argtype.GetHashCode();
             }
-            var method = cachedMembers.GetOrAdd(hash, x =>
+            var method = CachedMembers.GetOrAdd(hash, x =>
             {
                 var m = GetMember(type, methodname, argtypes);
                 return m == null ? null : new CompiledMethodInfo(m, type);
@@ -47,7 +47,7 @@ namespace MyShare.Kernel.Infrastructure
         {
             while (true)
             {
-                var member = type.GetMethods(bindingFlags)
+                var member = type.GetMethods(BindingFlags)
                     .FirstOrDefault(m => m.Name == name && m.GetParameters()
                                              .Select(p => p.ParameterType).SequenceEqual(argtypes));
 

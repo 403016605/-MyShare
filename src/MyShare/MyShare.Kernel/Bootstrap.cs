@@ -9,11 +9,9 @@ using MyShare.Kernel.Bus;
 using MyShare.Kernel.Cache;
 using MyShare.Kernel.Commands;
 using MyShare.Kernel.Common;
-using MyShare.Kernel.Data;
 using MyShare.Kernel.Defaults.Bus;
 using MyShare.Kernel.Defaults.Cache;
 using MyShare.Kernel.Defaults.Common;
-using MyShare.Kernel.Defaults.Data;
 using MyShare.Kernel.Defaults.Domain;
 using MyShare.Kernel.Defaults.Events;
 using MyShare.Kernel.Domain;
@@ -58,10 +56,6 @@ namespace MyShare.Kernel
 
             //注册工具
             ServicesCollection.AddSingleton<ISerializer, Serializer>();
-            ServicesCollection.AddSingleton<IEventRepository, EventRepository>();
-
-            var dbConn=ServicesCollection.BuildServiceProvider().GetService<IDbConnection>();
-            dbConn.InitEntities(typeof(ModuleInfo).GetTypeInfo().Assembly);
             return this;
         }
 

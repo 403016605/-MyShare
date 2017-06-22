@@ -8,12 +8,13 @@ namespace MyShare.Sample.Queries
 {
     internal class QueryBook : IQueryBook
     {
-        public IEnumerable<BookEntity> GetList()
+
+        public IEnumerable<Book> GetList()
         {
             return InMemoryDatabase.BookSet.Values.ToList();
         }
 
-        public BookEntity Get(Guid id)
+        public Book Get(Guid id)
         {
             return InMemoryDatabase.BookSet[id];
         }

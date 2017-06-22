@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MyShare.Kernel.Data\MyShare.Kernel.Data.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MyShare.Kernel\MyShare.Kernel.csproj" />
   </ItemGroup>
 
