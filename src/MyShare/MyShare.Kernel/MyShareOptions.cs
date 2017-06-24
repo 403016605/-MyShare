@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -20,51 +19,30 @@ using Scrutor;
 
 namespace MyShare.Kernel
 {
-    public sealed class Bootstrap
+    public class MyShareOptions : IMyShareOptions
     {
         public IServiceCollection ServicesCollection { get; }
+        public IServiceProvider ServiceProvider { get; }
 
-        public static Bootstrap Instance(IServiceCollection services)
+        public static IMyShareOptions Instance(IServiceCollection services)
         {
-            return new Bootstrap(services);
+            return new MyShareOptions(services);
         }
 
-        private Bootstrap(IServiceCollection services)
+        public MyShareOptions(IServiceCollection services)
         {
             ServicesCollection = services;
+            ServiceProvider = services.BuildServiceProvider();
         }
 
-        /// <summary>
-        ///     初始化
-        /// </summary>
-        /// <returns></returns>
-        public Bootstrap InitKernel(IDbConnection conn)
+        public IMyShareOptions AddBus(Assembly assembly)
         {
-            ServicesCollection.AddMemoryCache();
-
-            //添加CQRS服务
-            ServicesCollection.AddSingleton(new InProcessBus());
-            ServicesCollection.AddSingleton<ICommandSender>(y => y.GetService<InProcessBus>());
-            ServicesCollection.AddSingleton<IEventPublisher>(y => y.GetService<InProcessBus>());
-            ServicesCollection.AddSingleton<IHandlerRegistrar>(y => y.GetService<InProcessBus>());
-            ServicesCollection.AddScoped<ISession, Session>();
-            ServicesCollection.AddSingleton<IDbConnection>(conn);
-            ServicesCollection.AddSingleton<IEventStore, InMemoryEventStore>();
-            ServicesCollection.AddScoped<ICache, MemoryCache>();
-            ServicesCollection.AddScoped<IRepository>(y => new CacheRepository(new Repository(y.GetService<IEventStore>()),
-                y.GetService<IEventStore>(), y.GetService<ICache>()));
-
-            //注册工具
-            ServicesCollection.AddSingleton<ISerializer, Serializer>();
+            var serviceProvider = ServicesCollection.BuildServiceProvider();
+            Register(serviceProvider, assembly);
             return this;
         }
 
-        /// <summary>
-        ///     扫描指定程序集中所有的commandhandlers和eventhandlers
-        /// </summary>
-        /// <param name="assembly">指定程序集</param>
-        /// <returns></returns>
-        public Bootstrap AddHandlers(Assembly assembly)
+        public IMyShareOptions AddHandlers(Assembly assembly)
         {
             ServicesCollection.Scan(scan => scan.FromAssemblies(assembly)
                 .AddClasses(classes => classes.Where(x =>
@@ -84,15 +62,23 @@ namespace MyShare.Kernel
             return this;
         }
 
-        /// <summary>
-        ///     添加总线
-        /// </summary>
-        /// <param name="typesFromAssemblyContainingMessages"></param>
-        /// <returns></returns>
-        public Bootstrap AddBus(Assembly assembly)
+        public IMyShareOptions Start()
         {
-            var serviceProvider = ServicesCollection.BuildServiceProvider();
-            Register(serviceProvider, assembly);
+            ServicesCollection.AddMemoryCache();
+
+            //添加CQRS服务
+            ServicesCollection.AddSingleton(new InProcessBus());
+            ServicesCollection.AddSingleton<ICommandSender>(y => y.GetService<InProcessBus>());
+            ServicesCollection.AddSingleton<IEventPublisher>(y => y.GetService<InProcessBus>());
+            ServicesCollection.AddSingleton<IHandlerRegistrar>(y => y.GetService<InProcessBus>());
+            ServicesCollection.AddScoped<ISession, Session>();
+            ServicesCollection.AddSingleton<IEventStore, InMemoryEventStore>();
+            ServicesCollection.AddScoped<ICache, MemoryCache>();
+            ServicesCollection.AddScoped<IRepository>(y => new CacheRepository(new Repository(y.GetService<IEventStore>()),
+                y.GetService<IEventStore>(), y.GetService<ICache>()));
+
+            //注册工具
+            ServicesCollection.AddSingleton<ISerializer, Serializer>();
             return this;
         }
 
@@ -146,6 +132,26 @@ namespace MyShare.Kernel
                 .Where(i => i.GetTypeInfo().IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICommandHandler<>)
                                                               || i.GetGenericTypeDefinition() ==
                                                               typeof(IEventHandler<>)));
+        }
+
+        public IMyShareOptions AddSingleton()
+        {
+            throw new NotImplementedException();
+        }
+
+        IMyShareOptions IMyShareOptions.Start()
+        {
+            throw new NotImplementedException();
+        }
+
+        IMyShareOptions IMyShareOptions.AddHandlers(Assembly assembly)
+        {
+            throw new NotImplementedException();
+        }
+
+        IMyShareOptions IMyShareOptions.AddBus(Assembly assembly)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
