@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -20,29 +20,32 @@ using Scrutor;
 
 namespace MyShare.Kernel
 {
-    public sealed class Bootstrap
+    public sealed class MyShareOptions : IMyShareOptions
     {
         public IServiceCollection ServicesCollection { get; }
 
-        public static Bootstrap Instance(IServiceCollection services)
+        public IServiceProvider ServiceProvider { get; }
+
+        #region ����ģʽ
+
+        public static MyShareOptions Instance(IServiceCollection services)
         {
-            return new Bootstrap(services);
+            return new MyShareOptions(services);
         }
 
-        private Bootstrap(IServiceCollection services)
+        private MyShareOptions(IServiceCollection services)
         {
             ServicesCollection = services;
+            ServiceProvider = services.BuildServiceProvider();
         }
 
-        /// <summary>
-        ///     初始化
-        /// </summary>
-        /// <returns></returns>
-        public Bootstrap InitKernel(IDbConnection conn)
+        #endregion
+
+        public IMyShareOptions InitKernel(IDbConnection conn)
         {
             ServicesCollection.AddMemoryCache();
 
-            //添加CQRS服务
+            //����CQRS����
             ServicesCollection.AddSingleton(new InProcessBus());
             ServicesCollection.AddSingleton<ICommandSender>(y => y.GetService<InProcessBus>());
             ServicesCollection.AddSingleton<IEventPublisher>(y => y.GetService<InProcessBus>());
@@ -54,17 +57,12 @@ namespace MyShare.Kernel
             ServicesCollection.AddScoped<IRepository>(y => new CacheRepository(new Repository(y.GetService<IEventStore>()),
                 y.GetService<IEventStore>(), y.GetService<ICache>()));
 
-            //注册工具
+            //ע�Ṥ��
             ServicesCollection.AddSingleton<ISerializer, Serializer>();
             return this;
         }
 
-        /// <summary>
-        ///     扫描指定程序集中所有的commandhandlers和eventhandlers
-        /// </summary>
-        /// <param name="assembly">指定程序集</param>
-        /// <returns></returns>
-        public Bootstrap AddHandlers(Assembly assembly)
+        public IMyShareOptions AddHandlers(Assembly assembly)
         {
             ServicesCollection.Scan(scan => scan.FromAssemblies(assembly)
                 .AddClasses(classes => classes.Where(x =>
@@ -84,12 +82,7 @@ namespace MyShare.Kernel
             return this;
         }
 
-        /// <summary>
-        ///     添加总线
-        /// </summary>
-        /// <param name="typesFromAssemblyContainingMessages"></param>
-        /// <returns></returns>
-        public Bootstrap AddBus(Assembly assembly)
+        public IMyShareOptions AddBus(Assembly assembly)
         {
             var serviceProvider = ServicesCollection.BuildServiceProvider();
             Register(serviceProvider, assembly);
@@ -103,9 +96,9 @@ namespace MyShare.Kernel
             var registrar = serviceProvider.GetService<IHandlerRegistrar>();
 
             var executorTypes = assembly
-                    .GetTypes()
-                    .Select(t => new { Type = t, Interfaces = ResolveMessageHandlerInterface(t) })
-                    .Where(e => e.Interfaces != null && e.Interfaces.Any());
+                .GetTypes()
+                .Select(t => new { Type = t, Interfaces = ResolveMessageHandlerInterface(t) })
+                .Where(e => e.Interfaces != null && e.Interfaces.Any());
 
             foreach (var executorType in executorTypes)
             {

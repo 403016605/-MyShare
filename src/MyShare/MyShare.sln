@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyShare.Sample", "MyShare.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyShare.Sample.Web", "MyShare.Sample.Web\MyShare.Sample.Web.csproj", "{5D824684-15BD-4261-8EB9-425F750A8354}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyShare.Common", "MyShare.Common\MyShare.Common.csproj", "{0C9F2C72-5197-42AD-8C75-97289E6E11BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyShare.Kernel.Data", "MyShare.Kernel.Data\MyShare.Kernel.Data.csproj", "{AEB14FAA-F957-4FD6-ADAB-D6675655C3EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyShare.Kernel.Data", "MyShare.Kernel.Data\MyShare.Kernel.Data.csproj", "{AEB14FAA-F957-4FD6-ADAB-D6675655C3EA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{296B9E74-EDC9-4FF9-8F8C-C714AC7B71DE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyShare.Sample.XUnitTest", "MyShare.Sample.XUnitTest\MyShare.Sample.XUnitTest.csproj", "{1BBBBB38-A38A-4C2B-8448-09763A6C3C4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,16 +33,19 @@ Global
 		{5D824684-15BD-4261-8EB9-425F750A8354}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D824684-15BD-4261-8EB9-425F750A8354}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D824684-15BD-4261-8EB9-425F750A8354}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0C9F2C72-5197-42AD-8C75-97289E6E11BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0C9F2C72-5197-42AD-8C75-97289E6E11BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0C9F2C72-5197-42AD-8C75-97289E6E11BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0C9F2C72-5197-42AD-8C75-97289E6E11BB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AEB14FAA-F957-4FD6-ADAB-D6675655C3EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AEB14FAA-F957-4FD6-ADAB-D6675655C3EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEB14FAA-F957-4FD6-ADAB-D6675655C3EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEB14FAA-F957-4FD6-ADAB-D6675655C3EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BBBBB38-A38A-4C2B-8448-09763A6C3C4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BBBBB38-A38A-4C2B-8448-09763A6C3C4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BBBBB38-A38A-4C2B-8448-09763A6C3C4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BBBBB38-A38A-4C2B-8448-09763A6C3C4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1BBBBB38-A38A-4C2B-8448-09763A6C3C4A} = {296B9E74-EDC9-4FF9-8F8C-C714AC7B71DE}
 	EndGlobalSection
 EndGlobal
