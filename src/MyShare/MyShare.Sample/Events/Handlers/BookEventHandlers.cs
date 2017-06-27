@@ -6,10 +6,12 @@ using MyShare.Sample.Infrastructure.Entities;
 
 namespace MyShare.Sample.Events.Handlers
 {
-    public class BookEventHandlers : IEventHandler<BookCreatedEvent>,IEventHandler<BookRemoveEvent>
+    public class BookEventHandlers : IEventHandler<BookCreatedEvent>,
+        IEventHandler<BookRemoveEvent>
     {
         public Task Handle(BookCreatedEvent message)
         {
+            InMemoryDatabase.BookSet.Remove(message.Id);
             InMemoryDatabase.BookSet.Add(message.Id, new BookEntity(message.Id, message.Name, message.Version));
             return Task.CompletedTask;
         }

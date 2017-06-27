@@ -11433,6 +11433,7 @@
       "Microsoft.Extensions.DependencyInjection.Abstractions >= 1.1.1",
       "Microsoft.NET.Test.Sdk >= 15.0.0",
       "Microsoft.NETCore.App >= 1.1.2",
+      "MyShare.Kernel >= 1.0.0",
       "MyShare.Sample.Web >= 1.0.0",
       "xunit >= 2.2.0",
       "xunit.runner.visualstudio >= 2.2.0"
@@ -11457,6 +11458,9 @@
           "projectReferences": {
             "E:\\MyShare\\src\\MyShare\\MyShare.Sample.Web\\MyShare.Sample.Web.csproj": {
               "projectPath": "E:\\MyShare\\src\\MyShare\\MyShare.Sample.Web\\MyShare.Sample.Web.csproj"
+            },
+            "E:\\MyShare\\src\\MyShare\\MyShare.Kernel\\MyShare.Kernel.csproj": {
+              "projectPath": "E:\\MyShare\\src\\MyShare\\MyShare.Kernel\\MyShare.Kernel.csproj"
             }
           }
         }

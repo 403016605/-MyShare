@@ -7,7 +7,7 @@ namespace MyShare.Kernel.Defaults.Common
     /// <summary>
     /// 序列化的基于Protobuf的默认实现
     /// </summary>
-    internal class Serializer : ISerializer
+    public class Serializer : ISerializer
     {
 
         public T Deserialize<T>(byte[] byteArray)

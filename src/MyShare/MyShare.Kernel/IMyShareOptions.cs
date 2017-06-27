@@ -10,9 +10,11 @@ namespace MyShare.Kernel
 
     public interface IMyShareOptions
     {
-        IServiceCollection ServicesCollection { get; }
+        Dictionary<string, Type> TypeDict { get; }
 
         IServiceProvider ServiceProvider { get; }
+        IServiceCollection ServicesCollection { get; }
+
 
         IMyShareOptions InitKernel(IDbConnection conn, List<Type> entityTypes);
 

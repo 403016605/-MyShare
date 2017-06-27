@@ -17,5 +17,9 @@ namespace MyShare.Sample.Events
         {
             Id = id;
         }
+
+        public BookRemoveEvent()
+        {
+        }
     }
 }

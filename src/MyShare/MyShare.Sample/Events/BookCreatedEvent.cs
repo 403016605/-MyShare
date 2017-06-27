@@ -14,12 +14,16 @@ namespace MyShare.Sample.Events
         [ProtoMember(3)]
         public long TimeStamp { get; set; }
         [ProtoMember(4)]
-        public readonly string Name;
+        public string Name { get; set; }
 
         public BookCreatedEvent(Guid id, string name)
         {
             Id = id;
             Name = name;
+        }
+
+        public BookCreatedEvent()
+        {
         }
     }
 }

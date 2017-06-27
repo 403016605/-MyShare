@@ -1,16 +1,33 @@
 using System;
+using MyShare.Kernel.Common;
+using MyShare.Kernel.Defaults.Common;
+using MyShare.Kernel.Infrastructure;
+using MyShare.Sample.Events;
 using Xunit;
 
 namespace MyShare.Sample.XUnitTest
 {
+
+
     public class UnitTest1
     {
         [Fact]
         public void Test1()
         {
-            
+            ISerializer serializer=new Serializer();
 
-            Assert.Equal(4, Add(2, 2));
+            var @event = new BookCreatedEvent(Guid.NewGuid(), "Test")
+            {
+                Version = 1,
+                TimeStamp = DateTimeOffset.UtcNow.Ticks
+            };
+
+            var bytes = serializer.Serialize(@event);
+
+            var obj = serializer.Deserialize<BookCreatedEvent>(bytes);
+
+            Assert.Equal(obj.Id, @event.Id);
+            Assert.Equal(obj.Name, @event.Name);
         }
 
         int Add(int x, int y)

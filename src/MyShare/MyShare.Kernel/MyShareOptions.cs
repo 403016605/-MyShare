@@ -26,6 +26,8 @@ namespace MyShare.Kernel
     {
         public IServiceCollection ServicesCollection { get; }
 
+        public Dictionary<string, Type> TypeDict { get; internal set; }
+
         public IServiceProvider ServiceProvider { get; }
 
         #region 单例模式
@@ -39,12 +41,18 @@ namespace MyShare.Kernel
         {
             ServicesCollection = services;
             ServiceProvider = services.BuildServiceProvider();
+            TypeDict = new Dictionary<string, Type>();
         }
 
         #endregion
 
         public IMyShareOptions InitKernel(IDbConnection conn, List<Type> entityTypes)
         {
+            foreach (var et in entityTypes)
+            {
+                TypeDict.Add(et.FullName,et);
+            }
+
             ServicesCollection.AddMemoryCache();
 
             //添加CQRS服务

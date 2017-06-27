@@ -16,12 +16,14 @@ namespace MyShare.Kernel.Defaults.Events
         private readonly IEventPublisher _publisher;
         private readonly ISerializer _serializer;
         private readonly DataContext _context;
+        private readonly IMyShareOptions _myShareOptions;
 
-        public SampleEventStore(IEventPublisher publisher, ISerializer serializer, DataContext context)
+        public SampleEventStore(IMyShareOptions myShareOptions,IEventPublisher publisher, ISerializer serializer, DataContext context)
         {
             _publisher = publisher;
             _context = context;
             _serializer=serializer;
+            _myShareOptions = myShareOptions;
         }
 
         public async Task Save(IEnumerable<IEvent> events)
@@ -35,8 +37,12 @@ namespace MyShare.Kernel.Defaults.Events
                     Version = @event.Version,
                     TimeStamp=@event.TimeStamp
                 };
-                _context.Entry(eventEntity).State=EntityState.Added;
-                _context.SaveChanges();
+
+                if (_context.Set<EventEntity>().Any(m => m.Id == @event.Id && m.TimeStamp == @event.TimeStamp)==false)
+                {
+                    _context.Entry(eventEntity).State = EntityState.Added;
+                    _context.SaveChanges();
+                }
 
 
                 //_inMemoryDb.TryGetValue(@event.Id, out var list);
@@ -53,22 +59,21 @@ namespace MyShare.Kernel.Defaults.Events
 
         public Task<IEnumerable<IEvent>> Get(Guid aggregateId, int fromVersion)
         {
+            List<IEvent> result = new List<IEvent>();
 
             var eventEntityies= _context.Set<EventEntity>().Where(m => m.Id == aggregateId && m.Version > fromVersion).ToList();
 
-            var a=eventEntityies[0];
+            if (eventEntityies != null)
+            {
+                foreach (var eventEntity in eventEntityies)
+                {
+                    var obj = _serializer.Deserialize(_myShareOptions.TypeDict[eventEntity.EventType],
+                        eventEntity.EventContent);
+                    result.Add(obj as IEvent);
+                }
+            }
 
-            var b= _serializer.Deserialize(Type.GetType(a.EventType), a.EventContent);
-
-            return Task.FromResult(
-            eventEntityies == null
-                ? new List<IEvent>()
-                : (IEnumerable<IEvent>) eventEntityies.Select(e => (IEvent)_serializer.Deserialize(Type.GetType(e.EventType),e.EventContent)).ToList());
-
-
-
-            //_inMemoryDb.TryGetValue(aggregateId, out var events);
-            //return Task.FromResult(events?.Where(x => x.Version > fromVersion) ?? new List<IEvent>());
+            return Task.FromResult(result.AsEnumerable());
         }
     }
 }
