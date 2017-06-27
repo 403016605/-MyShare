@@ -10,7 +10,7 @@ namespace MyShare.Sample.Events.Handlers
     {
         public Task Handle(BookCreatedEvent message)
         {
-            InMemoryDatabase.BookSet.Add(message.Id, new Book(message.Id, message.Name, message.Version));
+            InMemoryDatabase.BookSet.Add(message.Id, new BookEntity(message.Id, message.Name, message.Version));
             return Task.CompletedTask;
         }
 

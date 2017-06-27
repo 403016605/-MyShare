@@ -12,7 +12,7 @@ namespace MyShare.Sample.Events
         [ProtoMember(2)]
         public int Version { get; set; }
         [ProtoMember(3)]
-        public DateTimeOffset TimeStamp { get; set; }
+        public long TimeStamp { get; set; }
         [ProtoMember(4)]
         public readonly string Name;
 

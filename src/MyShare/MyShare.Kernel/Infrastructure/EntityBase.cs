@@ -14,6 +14,13 @@ namespace MyShare.Kernel.Infrastructure
             ModifyTime = CreateTime;
         }
 
+        protected EntityBase()
+        {
+            Id = Guid.NewGuid();
+            CreateTime = DateTime.Now;
+            ModifyTime = CreateTime;
+        }
+
         /// <summary>
         /// 实体主键
         /// </summary>
@@ -23,6 +30,11 @@ namespace MyShare.Kernel.Infrastructure
         /// 实体版本
         /// </summary>
         public int Version { get; set; }
+
+        /// <summary>
+        /// 时间戳
+        /// </summary>
+        public long TimeStamp { get; set; }
 
         /// <summary>
         /// 创建时间

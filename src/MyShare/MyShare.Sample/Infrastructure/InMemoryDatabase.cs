@@ -6,6 +6,6 @@ namespace MyShare.Sample.Infrastructure
 {
     public static class InMemoryDatabase
     {
-        public static readonly Dictionary<Guid, Book> BookSet = new Dictionary<Guid, Book>();
+        public static readonly Dictionary<Guid, BookEntity> BookSet = new Dictionary<Guid, BookEntity>();
     }
 }

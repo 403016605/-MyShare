@@ -4,11 +4,13 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MyShare.Kernel.Bus;
 using MyShare.Kernel.Cache;
 using MyShare.Kernel.Commands;
 using MyShare.Kernel.Common;
+using MyShare.Kernel.Data;
 using MyShare.Kernel.Defaults.Bus;
 using MyShare.Kernel.Defaults.Cache;
 using MyShare.Kernel.Defaults.Common;
@@ -41,7 +43,7 @@ namespace MyShare.Kernel
 
         #endregion
 
-        public IMyShareOptions InitKernel(IDbConnection conn)
+        public IMyShareOptions InitKernel(IDbConnection conn, List<Type> entityTypes)
         {
             ServicesCollection.AddMemoryCache();
 
@@ -50,15 +52,21 @@ namespace MyShare.Kernel
             ServicesCollection.AddSingleton<ICommandSender>(y => y.GetService<InProcessBus>());
             ServicesCollection.AddSingleton<IEventPublisher>(y => y.GetService<InProcessBus>());
             ServicesCollection.AddSingleton<IHandlerRegistrar>(y => y.GetService<InProcessBus>());
-            ServicesCollection.AddScoped<ISession, Session>();
             ServicesCollection.AddSingleton<IDbConnection>(conn);
-            ServicesCollection.AddSingleton<IEventStore, InMemoryEventStore>();
-            ServicesCollection.AddScoped<ICache, MemoryCache>();
-            ServicesCollection.AddScoped<IRepository>(y => new CacheRepository(new Repository(y.GetService<IEventStore>()),
-                y.GetService<IEventStore>(), y.GetService<ICache>()));
-
-            //×¢²á¹¤¾ß
             ServicesCollection.AddSingleton<ISerializer, Serializer>();
+            ServicesCollection.AddSingleton<DataContext>(new DataContext(new DbContextOptionsBuilder<DataContext>().UseSqlServer(conn.ConnectionString).Options, entityTypes));
+
+
+            ServicesCollection.AddSingleton<IEventStore, SampleEventStore>();
+
+
+            ServicesCollection.AddScoped<ISession, Session>();
+            ServicesCollection.AddScoped<ICache, MemoryCache>();
+
+            ServicesCollection.AddScoped<IRepository>(y => new CacheRepository(new Repository(y.GetService(typeof(IEventStore)) as IEventStore),
+                y.GetService(typeof(IEventStore)) as IEventStore, y.GetService<ICache>()));
+
+
             return this;
         }
 

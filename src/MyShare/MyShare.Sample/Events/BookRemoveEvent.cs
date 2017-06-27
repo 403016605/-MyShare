@@ -12,7 +12,7 @@ namespace MyShare.Sample.Events
         [ProtoMember(2)]
         public int Version { get; set; }
         [ProtoMember(3)]
-        public DateTimeOffset TimeStamp { get; set; }
+        public long TimeStamp { get; set; }
         public BookRemoveEvent(Guid id)
         {
             Id = id;

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
@@ -9,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MyShare.Kernel;
 using MyShare.Sample.Extensions;
+using MyShare.Sample.Infrastructure;
 
 namespace MyShare.Sample.Web
 {
@@ -31,18 +34,33 @@ namespace MyShare.Sample.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            var currentAssembly=this.GetType().GetTypeInfo().Assembly;
-            var refAssemblyNames= currentAssembly.GetReferencedAssemblies();
-            _assemblies = refAssemblyNames.Select(Assembly.Load).ToList();
-
             // Add framework services.
             services.AddMvc();
-            //IDbConnection conn = new MySqlConnection("Server=127.0.0.1;Database=eventsource;Uid=root;Pwd=123456;")
+
+            //services.Configure<MyShareConfig>(Configuration.GetSection("MyShareConfig"));
+
+            IDbConnection conn = new SqlConnection(Configuration.GetConnectionString("SqlServer"));
+            services.AddSingleton<IDbConnection>(conn);
+
             services.AddSingleton<IMyShareOptions>(MyShareOptions.Instance(services));
             var myShareOptions = services.BuildServiceProvider().GetService<IMyShareOptions>();
-            myShareOptions.InitKernel(new SqlConnection(@"Data Source = WH-PC077\MSSQLSERVER2014;Initial Catalog = eventsource;User Id = sa;Password = 95938;"))
+
+            myShareOptions.InitKernel(conn, GetTypesFromAssemblies())
                 .UseSample();//初始化项目
+        }
+
+        private List<Type> GetTypesFromAssemblies()
+        {
+            var currentAssembly = this.GetType().GetTypeInfo().Assembly;
+            var refAssemblyNames = currentAssembly.GetReferencedAssemblies().Where(a => a.FullName.StartsWith("MyShare"));
+            _assemblies = refAssemblyNames.Select(Assembly.Load).ToList();
+            var types = new List<Type>();
+
+            foreach (var asm in _assemblies)
+            {
+                types.AddRange(asm.GetTypes());
+            }
+            return types;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

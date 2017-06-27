@@ -13,6 +13,14 @@ namespace MyShare.Kernel.Common
         T Deserialize<T>(byte[] byteArray);
 
         /// <summary>
+        /// 反序列化
+        /// </summary>
+        /// <param name="byteArray">二进制</param>
+        /// <param name="toType">类型</param>
+        /// <returns></returns>
+        object Deserialize(Type toType, byte[] byteArray);
+
+        /// <summary>
         /// 序列化
         /// </summary>
         /// <typeparam name="T">T类型</typeparam>

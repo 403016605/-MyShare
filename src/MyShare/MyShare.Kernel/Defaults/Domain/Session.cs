@@ -63,7 +63,7 @@ namespace MyShare.Kernel.Defaults.Domain
 
         public async Task Commit()
         {
-            await Task.WhenAll(_trackedAggregates.Values.Select(x => _repository.Save(x.Aggregate, x.Version)));
+             await Task.WhenAll(_trackedAggregates.Values.Select(x => _repository.Save(x.Aggregate, x.Version)));
             _trackedAggregates.Clear();
         }
 

@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MyShare.Kernel.Data\MyShare.Kernel.Data.csproj" />
     <ProjectReference Include="..\MyShare.Kernel\MyShare.Kernel.csproj" />
   </ItemGroup>
 

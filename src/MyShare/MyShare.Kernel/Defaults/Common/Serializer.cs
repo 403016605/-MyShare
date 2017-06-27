@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using MyShare.Kernel.Common;
 
 namespace MyShare.Kernel.Defaults.Common
@@ -14,6 +15,15 @@ namespace MyShare.Kernel.Defaults.Common
             using (var memoryStream = new MemoryStream(byteArray))
             {
                 var obj = ProtoBuf.Serializer.Deserialize<T>(memoryStream);
+                return obj;
+            }
+        }
+
+        public object Deserialize(Type toType,byte[] byteArray)
+        {
+            using (var memoryStream = new MemoryStream(byteArray))
+            {
+                var obj = ProtoBuf.Serializer.Deserialize(toType,memoryStream);
                 return obj;
             }
         }
