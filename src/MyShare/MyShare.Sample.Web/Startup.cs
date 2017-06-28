@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Reflection;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,7 +27,7 @@ namespace MyShare.Sample.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
+            //Mvc框架
             services.AddMvc();
 
             //获取配置信息
@@ -43,12 +37,11 @@ namespace MyShare.Sample.Web
 
             var dbContextOptions = new DbContextOptionsBuilder().UseSqlServer(Configuration.GetConnectionString("SqlServer")).Options;
             
-            IMyShareOptions myShareOptions = MyShareOptions.Instance(services, myShareConfig, dbContextOptions);
+            var myShareOptions = MyShareOptions.Instance(services, myShareConfig, dbContextOptions)
+                .InitKernel()
+                .UseSample();
 
-            services.AddSingleton(myShareOptions);
-
-            myShareOptions.InitKernel()
-                .UseSample();//初始化项目
+            services.AddSingleton<IMyShareOptions>(myShareOptions);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -7,34 +7,56 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using MyShare.Kernel.Bus;
+using MyShare.Kernel.Bus.Impl;
 using MyShare.Kernel.Cache;
+using MyShare.Kernel.Cache.Impl;
 using MyShare.Kernel.Commands;
 using MyShare.Kernel.Common;
+using MyShare.Kernel.Common.Impl;
 using MyShare.Kernel.Data;
-using MyShare.Kernel.Defaults.Bus;
-using MyShare.Kernel.Defaults.Cache;
-using MyShare.Kernel.Defaults.Common;
-using MyShare.Kernel.Defaults.Domain;
-using MyShare.Kernel.Defaults.Events;
 using MyShare.Kernel.Domain;
+using MyShare.Kernel.Domain.Impl;
 using MyShare.Kernel.Events;
+using MyShare.Kernel.Events.Impl;
 
 namespace MyShare.Kernel
 {
+    /// <summary>
+    /// MyShare启动选项
+    /// </summary>
     public sealed class MyShareOptions : IMyShareOptions
     {
+        /// <summary>
+        /// 配置类参数
+        /// </summary>
         public MyShareConfig MyShareConfig { get; }
 
+        /// <summary>
+        /// 服务注册
+        /// </summary>
         public IServiceCollection ServicesCollection { get; }
 
+        /// <summary>
+        /// 类型字典
+        /// </summary>
         public Dictionary<string, Type> TypeDict { get; internal set; }
 
+        /// <summary>
+        /// 服务获取
+        /// </summary>
         public IServiceProvider ServiceProvider { get; }
 
         private readonly DbContextOptions _options;
 
         #region 单例模式
 
+        /// <summary>
+        /// 实例化
+        /// </summary>
+        /// <param name="services"><see cref="IServiceCollection"/>服务注册</param>
+        /// <param name="config"><see cref="IOptions&lt;MyShareConfig&gt;"/>配置信息</param>
+        /// <param name="contextOptions"><see cref="DbContextOptions"/>数据库配置信息</param>
+        /// <returns></returns>
         public static MyShareOptions Instance(IServiceCollection services, IOptions<MyShareConfig> config, DbContextOptions contextOptions)
         {
             services.AddSingleton(contextOptions);
@@ -54,7 +76,7 @@ namespace MyShare.Kernel
 
         public IMyShareOptions InitKernel()
         {
-            TypeDict = FillDictionary(MyShareConfig.Assemblies);
+            TypeDict = TypeMap(MyShareConfig.Assemblies);
 
             ServicesCollection.AddMemoryCache();
             //添加CQRS服务
@@ -65,13 +87,15 @@ namespace MyShare.Kernel
             ServicesCollection.AddSingleton<ISerializer, Serializer>();
             ServicesCollection.AddSingleton(new DataContext(_options, TypeDict.Values.ToList()));
 
-            ServicesCollection.AddSingleton<IEventStore, SampleEventStore>();
-
-            ServicesCollection.AddScoped<ISession, Session>();
             ServicesCollection.AddScoped<ICache, MemoryCache>();
+            ServicesCollection.AddSingleton<IEventStore, SampleEventStore>();
+            ServicesCollection.AddScoped<IRepository, Repository>();
+            ServicesCollection.AddScoped<ICacheRepository, CacheRepository>();
+            ServicesCollection.AddScoped<ISession, Session>();
+            
 
-            ServicesCollection.AddScoped<IRepository>(y => new CacheRepository(new Repository(y.GetService(typeof(IEventStore)) as IEventStore),
-                y.GetService(typeof(IEventStore)) as IEventStore, y.GetService<ICache>()));
+            //ServicesCollection.AddScoped<IRepository>(y => new CacheRepository(new Repository(y.GetService(typeof(IEventStore)) as IEventStore),
+            //    y.GetService(typeof(IEventStore)) as IEventStore, y.GetService<ICache>()));
 
             RegHandlerType();
 
@@ -80,7 +104,7 @@ namespace MyShare.Kernel
 
         #region private
 
-        private static Dictionary<string, Type> FillDictionary(IEnumerable<string> assemblies)
+        private static Dictionary<string, Type> TypeMap(IEnumerable<string> assemblies)
         {
             var assemblyList = assemblies.Select(m => Assembly.Load(new AssemblyName(m))).ToList();
 

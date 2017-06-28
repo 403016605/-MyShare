@@ -5,14 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MyShare.Kernel.Common;
 using MyShare.Kernel.Data;
-using MyShare.Kernel.Events;
 using MyShare.Kernel.Infrastructure;
 
-namespace MyShare.Kernel.Defaults.Events
+namespace MyShare.Kernel.Events.Impl
 {
     public class SampleEventStore : IEventStore
     {
-        //private readonly Dictionary<Guid, List<IEvent>> _inMemoryDb = new Dictionary<Guid, List<IEvent>>();
         private readonly IEventPublisher _publisher;
         private readonly ISerializer _serializer;
         private readonly DataContext _context;

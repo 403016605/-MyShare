@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using MyShare.Kernel.Common;
 
-namespace MyShare.Kernel.Defaults.Common
+namespace MyShare.Kernel.Common.Impl
 {
     /// <summary>
     /// 序列化的基于Protobuf的默认实现

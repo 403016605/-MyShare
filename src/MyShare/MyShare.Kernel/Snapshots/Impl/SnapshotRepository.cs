@@ -7,11 +7,10 @@ using MyShare.Kernel.Domain;
 using MyShare.Kernel.Domain.Factories;
 using MyShare.Kernel.Events;
 using MyShare.Kernel.Infrastructure;
-using MyShare.Kernel.Snapshots;
 
 #endregion
 
-namespace MyShare.Kernel.Defaults.Snapshots
+namespace MyShare.Kernel.Snapshots.Impl
 {
     internal class SnapshotRepository : IRepository
     {

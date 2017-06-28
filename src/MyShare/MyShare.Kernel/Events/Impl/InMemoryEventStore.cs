@@ -4,11 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MyShare.Kernel.Events;
 
 #endregion
 
-namespace MyShare.Kernel.Defaults.Events
+namespace MyShare.Kernel.Events.Impl
 {
     internal class InMemoryEventStore : IEventStore
     {

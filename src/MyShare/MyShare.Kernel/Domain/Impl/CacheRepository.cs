@@ -6,14 +6,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MyShare.Kernel.Cache;
-using MyShare.Kernel.Domain;
 using MyShare.Kernel.Events;
 
 #endregion
 
-namespace MyShare.Kernel.Defaults.Domain
+namespace MyShare.Kernel.Domain.Impl
 {
-    internal class CacheRepository : IRepository
+    internal class CacheRepository : ICacheRepository
     {
         private static readonly ConcurrentDictionary<Guid, SemaphoreSlim> Locks =
             new ConcurrentDictionary<Guid, SemaphoreSlim>();

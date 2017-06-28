@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MyShare.Kernel.Bus;
 using MyShare.Kernel.Commands;
 using MyShare.Kernel.Events;
 using MyShare.Kernel.Exceptions;
@@ -12,7 +11,7 @@ using MyShare.Kernel.Messages;
 
 #endregion
 
-namespace MyShare.Kernel.Defaults.Bus
+namespace MyShare.Kernel.Bus.Impl
 {
     public class InProcessBus : ICommandSender, IEventPublisher, IHandlerRegistrar
     {

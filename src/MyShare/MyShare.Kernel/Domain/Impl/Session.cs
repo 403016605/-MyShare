@@ -4,19 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MyShare.Kernel.Domain;
 using MyShare.Kernel.Domain.Exceptions;
 
 #endregion
 
-namespace MyShare.Kernel.Defaults.Domain
+namespace MyShare.Kernel.Domain.Impl
 {
     internal class Session : ISession
     {
-        private readonly IRepository _repository;
+        private readonly ICacheRepository _repository;
         private readonly Dictionary<Guid, AggregateDescriptor> _trackedAggregates;
 
-        public Session(IRepository repository)
+        public Session(ICacheRepository repository)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _trackedAggregates = new Dictionary<Guid, AggregateDescriptor>();

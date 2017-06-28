@@ -4,14 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MyShare.Kernel.Domain;
 using MyShare.Kernel.Domain.Exceptions;
 using MyShare.Kernel.Domain.Factories;
 using MyShare.Kernel.Events;
 
 #endregion
 
-namespace MyShare.Kernel.Defaults.Domain
+namespace MyShare.Kernel.Domain.Impl
 {
     internal class Repository : IRepository
     {
