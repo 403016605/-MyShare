@@ -57,14 +57,13 @@ namespace MyShare.Kernel
             TypeDict = FillDictionary(MyShareConfig.Assemblies);
 
             ServicesCollection.AddMemoryCache();
-
             //Ìí¼ÓCQRS·þÎñ
             ServicesCollection.AddSingleton(new InProcessBus());
             ServicesCollection.AddSingleton<ICommandSender>(y => y.GetService<InProcessBus>());
             ServicesCollection.AddSingleton<IEventPublisher>(y => y.GetService<InProcessBus>());
             ServicesCollection.AddSingleton<IHandlerRegistrar>(y => y.GetService<InProcessBus>());
             ServicesCollection.AddSingleton<ISerializer, Serializer>();
-            ServicesCollection.AddSingleton<DataContext>(new DataContext(_options, TypeDict.Values.ToList()));
+            ServicesCollection.AddSingleton(new DataContext(_options, TypeDict.Values.ToList()));
 
             ServicesCollection.AddSingleton<IEventStore, SampleEventStore>();
 
@@ -90,7 +89,7 @@ namespace MyShare.Kernel
 
         private void RegHandlerType()
         {
-            var registrar = this.ServicesCollection.BuildServiceProvider().GetService<IHandlerRegistrar>();
+            var registrar = ServicesCollection.BuildServiceProvider().GetService<IHandlerRegistrar>();
 
             var registerExecutorMethod = registrar
                 .GetType()
@@ -113,18 +112,20 @@ namespace MyShare.Kernel
 
             foreach (var executorType in executorTypes)
             {
-                this.ServicesCollection.AddTransient(executorType.Type);
+                ServicesCollection.AddTransient(executorType.Type);
 
                 foreach (var @interface in executorType.Interfaces)
                 {
                     var commandType = @interface.GetGenericArguments()[0];
-                    var del = new Func<dynamic, Task>(x =>
-                    {
-                        dynamic handler = this.ServicesCollection.BuildServiceProvider().GetService(executorType.Type);
-                        return handler.Handle(x);
-                    });
-
-                    registerExecutorMethod.MakeGenericMethod(commandType).Invoke(registrar, new object[] { del });
+                    registerExecutorMethod.MakeGenericMethod(commandType)
+                        .Invoke(registrar,
+                                new object[] { new Func<dynamic, Task>(x =>
+                                                    {
+                                                        dynamic handler = ServicesCollection.BuildServiceProvider().GetService(executorType.Type);
+                                                        return handler.Handle(x);
+                                                    })
+                                }
+                        );
                 }
             }
         }

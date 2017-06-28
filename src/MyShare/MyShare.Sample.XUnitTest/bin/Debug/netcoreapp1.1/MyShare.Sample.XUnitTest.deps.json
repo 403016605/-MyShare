@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.1",
-    "signature": "c23847248745b3ff63690af292cfc8959ceb317f"
+    "signature": "f9ac3eca071dff27f17b61e1f6225b23db5daab8"
   },
   "compilationOptions": {},
   "targets": {
@@ -1044,6 +1044,14 @@
           }
         }
       },
+      "stackexchange.redis/1.2.4": {
+        "dependencies": {
+          "System.Collections.NonGeneric": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.5/StackExchange.Redis.dll": {}
+        }
+      },
       "system.collections.nongeneric/4.3.0": {
         "runtime": {
           "lib/netstandard1.3/System.Collections.NonGeneric.dll": {}
@@ -1270,6 +1278,7 @@
           "Microsoft.Extensions.Caching.Memory": "1.1.2",
           "Microsoft.Extensions.DependencyInjection": "1.1.1",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "1.1.1",
+          "StackExchange.Redis": "1.2.4",
           "protobuf-net": "2.2.1"
         },
         "runtime": {
@@ -1923,6 +1932,13 @@
       "sha512": "sha512-4cXRTIcttvIreAoqK/5hzTtzepeggac+m5A0rzH+9zLtnFh2J0rLuGeJR4KjNLyKqPzO0kjqrs5lkRJEKX8HAA==",
       "path": "runtime.win7-x86.runtime.native.system.data.sqlclient.sni/4.3.0",
       "hashPath": "runtime.win7-x86.runtime.native.system.data.sqlclient.sni.4.3.0.nupkg.sha512"
+    },
+    "stackexchange.redis/1.2.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xD3zD0avV8j9aeWN+snvyclHURaxZZfzPQFSYTfWMIJ/BppyPSryr/vyysh7EQDX5qcw+HhE6TUb7Ho9Doadyw==",
+      "path": "stackexchange.redis/1.2.4",
+      "hashPath": "stackexchange.redis.1.2.4.nupkg.sha512"
     },
     "system.collections.nongeneric/4.3.0": {
       "type": "package",

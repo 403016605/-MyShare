@@ -36,10 +36,13 @@ namespace MyShare.Sample.Web
             // Add framework services.
             services.AddMvc();
 
+            //获取配置信息
             services.Configure<MyShareConfig>(Configuration.GetSection("MyShareConfig"));
+            var myShareConfig = services.BuildServiceProvider().GetService<IOptions<MyShareConfig>>();
+
 
             var dbContextOptions = new DbContextOptionsBuilder().UseSqlServer(Configuration.GetConnectionString("SqlServer")).Options;
-            var myShareConfig = services.BuildServiceProvider().GetService<IOptions<MyShareConfig>>();
+            
             IMyShareOptions myShareOptions = MyShareOptions.Instance(services, myShareConfig, dbContextOptions);
 
             services.AddSingleton(myShareOptions);
