@@ -13,6 +13,7 @@ using MyShare.Kernel.Cache.Impl;
 using MyShare.Kernel.Commands;
 using MyShare.Kernel.Common;
 using MyShare.Kernel.Common.Impl;
+using MyShare.Kernel.Configs;
 using MyShare.Kernel.Data;
 using MyShare.Kernel.Domain;
 using MyShare.Kernel.Domain.Impl;

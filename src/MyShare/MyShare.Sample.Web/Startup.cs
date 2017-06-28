@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MyShare.Kernel;
+using MyShare.Kernel.Configs;
 using MyShare.Sample.Extensions;
 
 namespace MyShare.Sample.Web
@@ -35,7 +36,7 @@ namespace MyShare.Sample.Web
             var myShareConfig = services.BuildServiceProvider().GetService<IOptions<MyShareConfig>>();
 
 
-            var dbContextOptions = new DbContextOptionsBuilder().UseSqlServer(Configuration.GetConnectionString("SqlServer")).Options;
+            var dbContextOptions = new DbContextOptionsBuilder().UseSqlServer(myShareConfig.Value.SqlServerConnStr).Options;
             
             var myShareOptions = MyShareOptions.Instance(services, myShareConfig, dbContextOptions)
                 .InitKernel()

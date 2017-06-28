@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Extensions.Options;
 using MyShare.Kernel.Common;
+using MyShare.Kernel.Configs;
 using MyShare.Kernel.Domain;
 using StackExchange.Redis;
 
@@ -14,7 +15,7 @@ namespace MyShare.Kernel.Cache.Impl
 
         private IDatabase Get_database()
         {
-            return ConnectionMultiplexer.Connect(_myShareConfig.RedisConn).GetDatabase();
+            return ConnectionMultiplexer.Connect(_myShareConfig.RedisConnStr).GetDatabase();
         }
 
         public RedisCache(IOptions<MyShareConfig> options, ISerializer serializer)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
+using MyShare.Kernel.Configs;
 
 namespace MyShare.Kernel
 {
