@@ -3,7 +3,7 @@ using MyShare.Kernel.Commands;
 
 namespace MyShare.Sample.Commands
 {
-    public class RemoveBookCommand : Command
+    public class RemoveBookCommand : ICommand
     {
         public RemoveBookCommand(Guid id, int originalVersion)
         {
@@ -15,5 +15,10 @@ namespace MyShare.Sample.Commands
         /// 聚合根标识
         /// </summary>
         public Guid Id { get; }
+
+        /// <summary>
+        /// 聚合的预期的版本
+        /// </summary>
+        public int ExpectedVersion { get; set; }
     }
 }

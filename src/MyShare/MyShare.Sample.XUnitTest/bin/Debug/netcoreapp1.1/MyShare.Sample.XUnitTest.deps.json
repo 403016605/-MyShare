@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.1",
-    "signature": "5605a43c206906e04dca51a9d35d7b2f4bc6de6d"
+    "signature": "c23847248745b3ff63690af292cfc8959ceb317f"
   },
   "compilationOptions": {},
   "targets": {
@@ -18,16 +18,6 @@
         },
         "runtime": {
           "MyShare.Sample.XUnitTest.dll": {}
-        }
-      },
-      "dapper/1.50.2": {
-        "dependencies": {
-          "System.Collections.NonGeneric": "4.3.0",
-          "System.Data.SqlClient": "4.3.1",
-          "System.Xml.XmlDocument": "4.3.0"
-        },
-        "runtime": {
-          "lib/netstandard1.3/Dapper.dll": {}
         }
       },
       "microsoft.applicationinsights/2.2.0": {
@@ -1054,14 +1044,6 @@
           }
         }
       },
-      "scrutor/1.12.0": {
-        "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "1.1.1"
-        },
-        "runtime": {
-          "lib/netstandard1.0/Scrutor.dll": {}
-        }
-      },
       "system.collections.nongeneric/4.3.0": {
         "runtime": {
           "lib/netstandard1.3/System.Collections.NonGeneric.dll": {}
@@ -1283,13 +1265,11 @@
       },
       "myshare.kernel/1.0.0": {
         "dependencies": {
-          "Dapper": "1.50.2",
           "Microsoft.EntityFrameworkCore": "1.1.2",
           "Microsoft.EntityFrameworkCore.SqlServer": "1.1.2",
           "Microsoft.Extensions.Caching.Memory": "1.1.2",
           "Microsoft.Extensions.DependencyInjection": "1.1.1",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "1.1.1",
-          "Scrutor": "1.12.0",
           "protobuf-net": "2.2.1"
         },
         "runtime": {
@@ -1327,13 +1307,6 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
-    },
-    "dapper/1.50.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-PhxIV8TI/5aYdLT4epuIZB+Evf0sv9gcQDpFGa04fSKDfNQIChRq0sKUgQbfpFWbuDW/UDDuiL3Grkhp/cvYrA==",
-      "path": "dapper/1.50.2",
-      "hashPath": "dapper.1.50.2.nupkg.sha512"
     },
     "microsoft.applicationinsights/2.2.0": {
       "type": "package",
@@ -1950,13 +1923,6 @@
       "sha512": "sha512-4cXRTIcttvIreAoqK/5hzTtzepeggac+m5A0rzH+9zLtnFh2J0rLuGeJR4KjNLyKqPzO0kjqrs5lkRJEKX8HAA==",
       "path": "runtime.win7-x86.runtime.native.system.data.sqlclient.sni/4.3.0",
       "hashPath": "runtime.win7-x86.runtime.native.system.data.sqlclient.sni.4.3.0.nupkg.sha512"
-    },
-    "scrutor/1.12.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-PDipE6zfe1LwIwDj5iJ+bz3Q/tbR4rWscoFmLj7Vf1HCiimDJ/lsHYvhAqFqonbmb+MF9QqE218EZsYc/Q8nWQ==",
-      "path": "scrutor/1.12.0",
-      "hashPath": "scrutor.1.12.0.nupkg.sha512"
     },
     "system.collections.nongeneric/4.3.0": {
       "type": "package",

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MyShare.Kernel.Commands;
 using MyShare.Kernel.Domain;
 using MyShare.Sample.Domain;

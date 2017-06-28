@@ -3,7 +3,7 @@ using MyShare.Kernel.Commands;
 
 namespace MyShare.Sample.Commands
 {
-    public class RestoreBookCommand : Command
+    public class RestoreBookCommand : ICommand
     {
         public RestoreBookCommand(Guid id)
         {
@@ -23,5 +23,10 @@ namespace MyShare.Sample.Commands
         public Guid Id { get; }
 
         public int FromVersion { get; }
+
+        /// <summary>
+        /// 聚合的预期的版本
+        /// </summary>
+        public int ExpectedVersion { get; set; }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using MyShare.Kernel.Events;
 
 namespace MyShare.Kernel
 {
@@ -16,11 +15,9 @@ namespace MyShare.Kernel
         IServiceCollection ServicesCollection { get; }
 
 
-        IMyShareOptions InitKernel(IDbConnection conn, List<Type> entityTypes);
+        IMyShareOptions InitKernel();
 
-        IMyShareOptions AddHandlers(Assembly assembly);
-
-        IMyShareOptions AddBus(Assembly assembly);
+        MyShareConfig MyShareConfig { get; }
     }
 
 

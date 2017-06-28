@@ -7,7 +7,7 @@ using MyShare.Kernel.Commands;
 
 namespace MyShare.Sample.Commands
 {
-    public class CreateBookCommand : Command
+    public class CreateBookCommand : ICommand
     {
         public readonly string Name;
 
@@ -21,5 +21,10 @@ namespace MyShare.Sample.Commands
         /// 聚合根标识
         /// </summary>
         public Guid Id { get;  }
+
+        /// <summary>
+        /// 聚合的预期的版本
+        /// </summary>
+        public int ExpectedVersion { get; set; }
     }
 }

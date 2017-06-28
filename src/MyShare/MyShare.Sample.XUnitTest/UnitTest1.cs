@@ -1,7 +1,6 @@
 using System;
 using MyShare.Kernel.Common;
 using MyShare.Kernel.Defaults.Common;
-using MyShare.Kernel.Infrastructure;
 using MyShare.Sample.Events;
 using Xunit;
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using MyShare.Kernel.Events;
 
 namespace MyShare.Kernel.Infrastructure
 {

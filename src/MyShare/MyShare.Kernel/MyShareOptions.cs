@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using MyShare.Kernel.Bus;
 using MyShare.Kernel.Cache;
 using MyShare.Kernel.Commands;
@@ -18,40 +18,43 @@ using MyShare.Kernel.Defaults.Domain;
 using MyShare.Kernel.Defaults.Events;
 using MyShare.Kernel.Domain;
 using MyShare.Kernel.Events;
-using Scrutor;
 
 namespace MyShare.Kernel
 {
     public sealed class MyShareOptions : IMyShareOptions
     {
+        public MyShareConfig MyShareConfig { get; }
+
         public IServiceCollection ServicesCollection { get; }
 
         public Dictionary<string, Type> TypeDict { get; internal set; }
 
         public IServiceProvider ServiceProvider { get; }
 
+        private readonly DbContextOptions _options;
+
         #region µ¥ÀýÄ£Ê½
 
-        public static MyShareOptions Instance(IServiceCollection services)
+        public static MyShareOptions Instance(IServiceCollection services, IOptions<MyShareConfig> config, DbContextOptions contextOptions)
         {
-            return new MyShareOptions(services);
+            services.AddSingleton(contextOptions);
+            return new MyShareOptions(services, config);
         }
 
-        private MyShareOptions(IServiceCollection services)
+        private MyShareOptions(IServiceCollection services, IOptions<MyShareConfig> config)
         {
             ServicesCollection = services;
             ServiceProvider = services.BuildServiceProvider();
             TypeDict = new Dictionary<string, Type>();
+            MyShareConfig = config.Value;
+            _options = ServiceProvider.GetService<DbContextOptions>();
         }
 
         #endregion
 
-        public IMyShareOptions InitKernel(IDbConnection conn, List<Type> entityTypes)
+        public IMyShareOptions InitKernel()
         {
-            foreach (var et in entityTypes)
-            {
-                TypeDict.Add(et.FullName,et);
-            }
+            TypeDict = FillDictionary(MyShareConfig.Assemblies);
 
             ServicesCollection.AddMemoryCache();
 
@@ -60,13 +63,10 @@ namespace MyShare.Kernel
             ServicesCollection.AddSingleton<ICommandSender>(y => y.GetService<InProcessBus>());
             ServicesCollection.AddSingleton<IEventPublisher>(y => y.GetService<InProcessBus>());
             ServicesCollection.AddSingleton<IHandlerRegistrar>(y => y.GetService<InProcessBus>());
-            ServicesCollection.AddSingleton<IDbConnection>(conn);
             ServicesCollection.AddSingleton<ISerializer, Serializer>();
-            ServicesCollection.AddSingleton<DataContext>(new DataContext(new DbContextOptionsBuilder<DataContext>().UseSqlServer(conn.ConnectionString).Options, entityTypes));
-
+            ServicesCollection.AddSingleton<DataContext>(new DataContext(_options, TypeDict.Values.ToList()));
 
             ServicesCollection.AddSingleton<IEventStore, SampleEventStore>();
-
 
             ServicesCollection.AddScoped<ISession, Session>();
             ServicesCollection.AddScoped<ICache, MemoryCache>();
@@ -74,61 +74,23 @@ namespace MyShare.Kernel
             ServicesCollection.AddScoped<IRepository>(y => new CacheRepository(new Repository(y.GetService(typeof(IEventStore)) as IEventStore),
                 y.GetService(typeof(IEventStore)) as IEventStore, y.GetService<ICache>()));
 
+            RegHandlerType();
 
-            return this;
-        }
-
-        public IMyShareOptions AddHandlers(Assembly assembly)
-        {
-            ServicesCollection.Scan(scan => scan.FromAssemblies(assembly)
-                .AddClasses(classes => classes.Where(x =>
-                {
-                    var allInterfaces = x.GetInterfaces();
-                    return
-                        allInterfaces.Any(y => y.GetTypeInfo().IsGenericType &&
-                                               y.GetTypeInfo().GetGenericTypeDefinition() ==
-                                               typeof(ICommandHandler<>)) ||
-                        allInterfaces.Any(y => y.GetTypeInfo().IsGenericType &&
-                                               y.GetTypeInfo().GetGenericTypeDefinition() == typeof(IEventHandler<>));
-                }))
-                .AsSelf()
-                .WithTransientLifetime()
-            );
-
-            return this;
-        }
-
-        public IMyShareOptions AddBus(Assembly assembly)
-        {
-            var serviceProvider = ServicesCollection.BuildServiceProvider();
-            Register(serviceProvider, assembly);
             return this;
         }
 
         #region private
 
-        private static void Register(IServiceProvider serviceProvider, Assembly assembly)
+        private static Dictionary<string, Type> FillDictionary(IEnumerable<string> assemblies)
         {
-            var registrar = serviceProvider.GetService<IHandlerRegistrar>();
+            var assemblyList = assemblies.Select(m => Assembly.Load(new AssemblyName(m))).ToList();
 
-            var executorTypes = assembly
-                .GetTypes()
-                .Select(t => new { Type = t, Interfaces = ResolveMessageHandlerInterface(t) })
-                .Where(e => e.Interfaces != null && e.Interfaces.Any());
-
-            foreach (var executorType in executorTypes)
-            {
-                foreach (var @interface in executorType.Interfaces)
-                {
-                    InvokeHandler(serviceProvider, @interface, registrar, executorType.Type);
-                }
-            }
+            return assemblyList.SelectMany(asm => asm.GetTypes()).ToDictionary(type => type.FullName);
         }
 
-        private static void InvokeHandler(IServiceProvider serviceProvider, Type @interface,
-            IHandlerRegistrar registrar, Type executorType)
+        private void RegHandlerType()
         {
-            var commandType = @interface.GetGenericArguments()[0];
+            var registrar = this.ServicesCollection.BuildServiceProvider().GetService<IHandlerRegistrar>();
 
             var registerExecutorMethod = registrar
                 .GetType()
@@ -136,25 +98,35 @@ namespace MyShare.Kernel
                 .Where(mi => mi.Name == "RegisterHandler")
                 .Where(mi => mi.IsGenericMethod)
                 .Where(mi => mi.GetGenericArguments().Length == 1)
-                .Single(mi => mi.GetParameters().Length == 1)
-                .MakeGenericMethod(commandType);
+                .Single(mi => mi.GetParameters().Length == 1);
 
-            var del = new Func<dynamic, Task>(x =>
+            var executorTypes = TypeDict.Values
+                .Select(t => new
+                {
+                    Type = t,
+                    Interfaces = t.GetInterfaces()
+                        .Where(i => i.GetTypeInfo().IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICommandHandler<>)
+                                                                      || i.GetGenericTypeDefinition() ==
+                                                                      typeof(IEventHandler<>)))
+                })
+                .Where(e => e.Interfaces != null && e.Interfaces.Any());
+
+            foreach (var executorType in executorTypes)
             {
-                dynamic handler = serviceProvider.GetService(executorType);
-                return handler.Handle(x);
-            });
+                this.ServicesCollection.AddTransient(executorType.Type);
 
-            registerExecutorMethod.Invoke(registrar, new object[] { del });
-        }
+                foreach (var @interface in executorType.Interfaces)
+                {
+                    var commandType = @interface.GetGenericArguments()[0];
+                    var del = new Func<dynamic, Task>(x =>
+                    {
+                        dynamic handler = this.ServicesCollection.BuildServiceProvider().GetService(executorType.Type);
+                        return handler.Handle(x);
+                    });
 
-        private static IEnumerable<Type> ResolveMessageHandlerInterface(Type type)
-        {
-            return type
-                .GetInterfaces()
-                .Where(i => i.GetTypeInfo().IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICommandHandler<>)
-                                                              || i.GetGenericTypeDefinition() ==
-                                                              typeof(IEventHandler<>)));
+                    registerExecutorMethod.MakeGenericMethod(commandType).Invoke(registrar, new object[] { del });
+                }
+            }
         }
 
         #endregion
