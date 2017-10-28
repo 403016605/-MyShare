@@ -1,6 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using MyShare.Kernel.Events;
+﻿using System.Threading.Tasks;
+using MyShare.Kernel.Base.Events;
 using MyShare.Sample.Infrastructure;
 using MyShare.Sample.Infrastructure.Entities;
 

@@ -12,7 +12,9 @@ namespace MyShare.Kernel.Infrastructure
 {
     internal class PrivateReflectionDynamicObject : DynamicObject
     {
-        private const BindingFlags BindingFlags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic;
+        private const BindingFlags BindingFlags = System.Reflection.BindingFlags.Instance |
+                                                  System.Reflection.BindingFlags.Public |
+                                                  System.Reflection.BindingFlags.NonPublic;
 
         private static readonly ConcurrentDictionary<int, CompiledMethodInfo> CachedMembers =
             new ConcurrentDictionary<int, CompiledMethodInfo>();
@@ -52,15 +54,11 @@ namespace MyShare.Kernel.Infrastructure
                                              .Select(p => p.ParameterType).SequenceEqual(argtypes));
 
                 if (member != null)
-                {
                     return member;
-                }
 
                 var t = type.GetTypeInfo().BaseType;
                 if (t == null)
-                {
                     return null;
-                }
 
                 type = t;
             }

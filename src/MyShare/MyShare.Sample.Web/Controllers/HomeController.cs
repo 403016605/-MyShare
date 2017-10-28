@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MyShare.Kernel.Commands;
 using MyShare.Sample.Commands;
 using MyShare.Sample.Queries;
+using MyShare.Kernel.Base.Commands;
 
 namespace MyShare.Sample.Web.Controllers
 {

@@ -1,5 +1,5 @@
 ﻿using System;
-using MyShare.Kernel.Events;
+using MyShare.Kernel.Base.Events;
 using ProtoBuf;
 
 namespace MyShare.Sample.Events

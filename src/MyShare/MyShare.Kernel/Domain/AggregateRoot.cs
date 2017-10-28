@@ -2,8 +2,8 @@
 
 using System;
 using System.Collections.Generic;
+using MyShare.Kernel.Base.Events;
 using MyShare.Kernel.Domain.Exceptions;
-using MyShare.Kernel.Events;
 using MyShare.Kernel.Infrastructure;
 
 #endregion
@@ -11,7 +11,7 @@ using MyShare.Kernel.Infrastructure;
 namespace MyShare.Kernel.Domain
 {
     /// <summary>
-    /// 聚合根抽象类
+    ///     聚合根抽象类
     /// </summary>
     public abstract class AggregateRoot
     {
@@ -37,14 +37,10 @@ namespace MyShare.Kernel.Domain
                 foreach (var @event in changes)
                 {
                     if (@event.Id == Guid.Empty && Id == Guid.Empty)
-                    {
                         throw new AggregateOrEventMissingIdException(GetType(), @event.GetType());
-                    }
 
                     if (@event.Id == Guid.Empty)
-                    {
                         @event.Id = Id;
-                    }
 
                     i++;
                     @event.Version = Version + i;
@@ -61,9 +57,7 @@ namespace MyShare.Kernel.Domain
             foreach (var e in history)
             {
                 if (e.Version != Version + 1)
-                {
                     throw new EventsOutOfOrderException(e.Id);
-                }
 
                 ApplyChange(e, false);
             }

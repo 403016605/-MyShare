@@ -6,10 +6,10 @@ using System;
 
 namespace MyShare.Kernel.Domain.Exceptions
 {
-    public class AggregateNotFoundException : System.Exception
+    public class AggregateNotFoundException : Exception
     {
         public AggregateNotFoundException(Type t, Guid id)
-            : base($"Aggregate {id} of type {t.FullName} was not found")
+            : base($"类型为 {t.FullName} 的聚合根 {id} 不存在!")
         {
         }
     }

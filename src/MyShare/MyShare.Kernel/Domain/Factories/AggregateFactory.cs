@@ -13,7 +13,7 @@ namespace MyShare.Kernel.Domain.Factories
         {
             try
             {
-                return (T)Activator.CreateInstance(typeof(T), true);
+                return (T) Activator.CreateInstance(typeof(T), true);
             }
             catch (MissingMethodException)
             {

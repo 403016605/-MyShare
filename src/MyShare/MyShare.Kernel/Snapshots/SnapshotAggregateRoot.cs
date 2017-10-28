@@ -6,13 +6,13 @@ using MyShare.Kernel.Domain;
 
 namespace MyShare.Kernel.Snapshots
 {
+    /// <inheritdoc />
     /// <summary>
-    /// 快照聚合根抽象类
+    ///     快照聚合根抽象类
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class SnapshotAggregateRoot<T> : AggregateRoot where T : Snapshot
     {
-
         public T GetSnapshot()
         {
             var snapshot = CreateSnapshot();

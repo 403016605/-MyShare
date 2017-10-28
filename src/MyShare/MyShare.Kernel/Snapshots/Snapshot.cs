@@ -7,7 +7,7 @@ using System;
 namespace MyShare.Kernel.Snapshots
 {
     /// <summary>
-    /// 快照抽象类
+    ///     快照抽象类
     /// </summary>
     public abstract class Snapshot
     {

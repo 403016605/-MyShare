@@ -1,5 +1,5 @@
 ﻿using System;
-using MyShare.Kernel.Commands;
+using MyShare.Kernel.Base.Commands;
 
 namespace MyShare.Sample.Commands
 {

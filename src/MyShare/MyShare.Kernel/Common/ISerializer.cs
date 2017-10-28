@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace MyShare.Kernel.Common
+﻿namespace MyShare.Kernel.Common
 {
     public interface ISerializer
     {
         /// <summary>
-        /// 反序列化
+        ///     反序列化
         /// </summary>
         /// <typeparam name="T">T类型</typeparam>
         /// <param name="byteArray">二进制</param>
@@ -13,7 +11,7 @@ namespace MyShare.Kernel.Common
         T Deserialize<T>(byte[] byteArray);
 
         /// <summary>
-        /// 序列化
+        ///     序列化
         /// </summary>
         /// <typeparam name="T">T类型</typeparam>
         /// <param name="obj">T类型实例</param>

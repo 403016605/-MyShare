@@ -6,7 +6,7 @@ using System;
 
 namespace MyShare.Kernel.Domain.Exceptions
 {
-    public class AggregateOrEventMissingIdException : System.Exception
+    public class AggregateOrEventMissingIdException : Exception
     {
         public AggregateOrEventMissingIdException(Type aggregateType, Type eventType)
             : base(

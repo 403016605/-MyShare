@@ -1,0 +1,11 @@
+E:\Workspace\MyShare\src\MyShare\MyShare.Kernel.Data\bin\Debug\netcoreapp2.0\MyShare.Kernel.Data.deps.json
+E:\Workspace\MyShare\src\MyShare\MyShare.Kernel.Data\bin\Debug\netcoreapp2.0\MyShare.Kernel.Data.dll
+E:\Workspace\MyShare\src\MyShare\MyShare.Kernel.Data\bin\Debug\netcoreapp2.0\MyShare.Kernel.Data.pdb
+E:\Workspace\MyShare\src\MyShare\MyShare.Kernel.Data\bin\Debug\netcoreapp2.0\MyShare.Kernel.dll
+E:\Workspace\MyShare\src\MyShare\MyShare.Kernel.Data\bin\Debug\netcoreapp2.0\MyShare.Kernel.pdb
+E:\Workspace\MyShare\src\MyShare\MyShare.Kernel.Data\obj\Debug\netcoreapp2.0\MyShare.Kernel.Data.csprojResolveAssemblyReference.cache
+E:\Workspace\MyShare\src\MyShare\MyShare.Kernel.Data\obj\Debug\netcoreapp2.0\MyShare.Kernel.Data.csproj.CoreCompileInputs.cache
+E:\Workspace\MyShare\src\MyShare\MyShare.Kernel.Data\obj\Debug\netcoreapp2.0\MyShare.Kernel.Data.AssemblyInfoInputs.cache
+E:\Workspace\MyShare\src\MyShare\MyShare.Kernel.Data\obj\Debug\netcoreapp2.0\MyShare.Kernel.Data.AssemblyInfo.cs
+E:\Workspace\MyShare\src\MyShare\MyShare.Kernel.Data\obj\Debug\netcoreapp2.0\MyShare.Kernel.Data.dll
+E:\Workspace\MyShare\src\MyShare\MyShare.Kernel.Data\obj\Debug\netcoreapp2.0\MyShare.Kernel.Data.pdb

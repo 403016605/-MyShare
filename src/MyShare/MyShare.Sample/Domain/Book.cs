@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using MyShare.Kernel.Domain;
 using MyShare.Sample.Events;
 

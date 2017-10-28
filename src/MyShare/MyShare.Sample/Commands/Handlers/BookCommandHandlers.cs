@@ -1,6 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using MyShare.Kernel.Commands;
+﻿using System.Threading.Tasks;
+using MyShare.Kernel.Base.Commands;
 using MyShare.Kernel.Domain;
 using MyShare.Sample.Domain;
 
@@ -32,7 +31,7 @@ namespace MyShare.Sample.Commands.Handlers
 
         public async Task Handle(RestoreBookCommand message)
         {
-            var item = await _session.Get<Book>(message.Id, null);
+            var item = await _session.Get<Book>(message.Id);
             await _session.Add(item);
             await _session.Commit();
         }

@@ -1,7 +1,7 @@
 ﻿#region using
 
 using System;
-using MyShare.Kernel.Commands;
+using MyShare.Kernel.Base.Commands;
 
 #endregion
 
@@ -21,27 +21,5 @@ namespace MyShare.Sample.Commands
         /// 聚合根标识
         /// </summary>
         public Guid Id { get;  }
-    }
-
-    public class RestoreBookCommand : Command
-    {
-        public RestoreBookCommand(Guid id)
-        {
-            Id = id;
-            FromVersion = 0;
-        }
-
-        public RestoreBookCommand(Guid id ,int fromVersion)
-        {
-            Id = id;
-            FromVersion = fromVersion;
-        }
-
-        /// <summary>
-        /// 聚合根标识
-        /// </summary>
-        public Guid Id { get; }
-
-        public int FromVersion { get; }
     }
 }
