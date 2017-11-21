@@ -8,8 +8,6 @@ namespace MyShare.Kernel
     {
         IServiceCollection ServicesCollection { get; }
 
-        IMyShareOptions Start();
-
         IMyShareOptions AddHandlers(Assembly assembly);
 
         IMyShareOptions AddBus(Assembly assembly);

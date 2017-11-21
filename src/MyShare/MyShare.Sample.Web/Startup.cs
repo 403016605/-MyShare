@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Reflection;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MyShare.Kernel;
+using MyShare.Sample.Extensions;
 
 namespace MyShare.Sample.Web
 {
@@ -29,7 +31,7 @@ namespace MyShare.Sample.Web
             //IDbConnection conn = new MySqlConnection("Server=127.0.0.1;Database=eventsource;Uid=root;Pwd=123456;")
             string conn=@"Data Source = WH-PC077\MSSQLSERVER2014;Initial Catalog = eventsource;User Id = sa;Password = 95938;";
 
-            MyShareOptions.Instance(services).Start().UseDataContext(conn)
+            MyShareOptions.Instance(services)
                 .UseSample();
         }
 

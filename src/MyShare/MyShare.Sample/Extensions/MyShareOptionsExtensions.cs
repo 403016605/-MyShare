@@ -13,7 +13,7 @@ namespace MyShare.Sample.Extensions
 
             myShareOptions.AddHandlers(currentAssembly);
             myShareOptions.AddBus(currentAssembly);
-            myShareOptions.ServicesCollection.AddSingleton<IQueryBook, QueryBook>();
+            myShareOptions.AddSingleton<IQueryBook, QueryBook>();
             return myShareOptions;
         }
     }

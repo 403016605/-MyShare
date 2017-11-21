@@ -58,3 +58,4 @@ dkms.conf
 /src/MyShare/MyShare.Sample.Web/bin
 /src/MyShare/MyShare.Sample/obj
 /src/MyShare/MyShare.Sample/bin
+/src/MyShare/.vs/MyShare/v15/Server/sqlite3
